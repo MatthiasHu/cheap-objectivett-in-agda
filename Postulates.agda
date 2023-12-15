@@ -10,6 +10,8 @@
 -- of some model of typal type theory.
 
 
+module Postulates where
+
 postulate
   Ty : Set
   Tm : Ty → Set
