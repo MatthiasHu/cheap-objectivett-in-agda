@@ -87,6 +87,28 @@ is-contr A =
   {!Sigma A λ a →
   Contraction A a!}
 
+Contraction-→-is-prop :
+  (A : Ty) →
+  Tm (
+    Pi A λ a →
+    Fun (Contraction A a) (is-prop A)
+  )
+Contraction-→-is-prop =
+  {!!}
+
+Constraction-→-Id-type-Contraction :
+  (A : Ty) →
+  Tm (
+    Pi A λ a →
+    Pi (Contraction A a) λ contraction →
+    Pi A λ b →
+    Pi A λ b' →
+    Contraction (Id A b b')
+      (app _ _ (app _ _ (app _ _ (app _ _ (Contraction-→-is-prop A) {!!}) {!!}) {!!}) {!!})
+  )
+Constraction-→-Id-type-Contraction =
+  {!!}
+
 is-prop-→-has-contr-Id-types-1 :
   (A : Ty) →
   Tm (
