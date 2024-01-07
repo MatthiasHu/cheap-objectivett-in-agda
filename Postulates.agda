@@ -38,7 +38,7 @@ postulate
     (d : (x : Tm A) → Tm (P x x (refl A x))) →
     Tm (P a b p)
 
-  idconf :
+  idconv :
     (A : Ty) →
     (P : (x : Tm A) → (y : Tm A) → Tm (Id A x y) → Ty) →
     (a : Tm A) →
