@@ -61,3 +61,12 @@ subst A B =
 -- Example of a statement that can not be expressed as concisely
 -- without judgemental equality:
 -- "ap(const x)(p) = refl x"
+
+
+is-prop :
+  (A : Ty) →
+  Ty
+is-prop A =
+  Pi A λ a →
+  Pi A λ b →
+  Id A a b
