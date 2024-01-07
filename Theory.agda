@@ -59,7 +59,7 @@ subst A B =
 
 
 -- Example of a statement that can not be expressed as concisely
--- without judgemental equality:
+-- without judgemental beta reduction:
 -- "ap(const x)(p) = refl x"
 
 
@@ -70,3 +70,42 @@ is-prop A =
   Pi A λ a →
   Pi A λ b →
   Id A a b
+
+is-contr :
+  (A : Ty) →
+  Ty
+is-contr A =
+  {!!}  -- Needs sigma types...
+
+is-prop-→-has-contr-Id-types-1 :
+  (A : Ty) →
+  Tm (
+    Pi (is-prop A) λ _ →
+    Pi A λ a →
+    Pi A λ b →
+    Id A a b
+  )
+is-prop-→-has-contr-Id-types-1 A =
+  id (is-prop A)
+  -- Yes, `is-prop` does unfold automatically.
+
+is-prop-→-has-contr-Id-types-2 :
+  (A : Ty) →
+  Tm (
+    Pi (is-prop A) λ is-prop-A →
+    Pi A λ a →
+    Pi A λ b →
+    Pi (Id A a b) λ p →
+    Id (Id A a b)
+      p
+      (app _ _ (app _ _ (app _ _ (is-prop-→-has-contr-Id-types-1 A) (is-prop-A)) a) b)
+  )
+is-prop-→-has-contr-Id-types-2 =
+  {!!}
+
+-- (Cheating about is-contr.)
+is-contr-→-is-prop :
+  (A : Ty) →
+  {!!}
+is-contr-→-is-prop =
+  {!!}
