@@ -87,6 +87,34 @@ is-contr A =
   {!Sigma A λ a →
   Contraction A a!}
 
+trivial-path :
+  (A : Ty) →
+  Tm (
+    Pi A λ a →
+    Id A a a
+  )
+trivial-path A =
+  lam _ _ λ a →
+  refl A a
+
+compose-paths :
+  (A : Ty) →
+  Tm (
+    -- This order of argument makes the definition easy.
+    Pi A λ a →
+    Pi A λ b →
+    Pi (Id A a b) λ _ →
+    Pi A λ c →
+    Pi (Id A b c) λ _ →
+    Id A a c
+  )
+compose-paths A =
+  lam _ _ λ a →
+  lam _ _ λ b →
+  lam _ _ λ p →
+  idrec A (λ a b p → Pi A λ c → Pi (Id A b c) λ _ → Id A a c) a b p
+    λ a → lam _ _ λ c → id (Id A a c)
+
 Contraction-→-is-prop :
   (A : Ty) →
   Tm (
