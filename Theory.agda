@@ -71,11 +71,21 @@ is-prop A =
   Pi A λ b →
   Id A a b
 
+-- This seems half cheating.
+Contraction :
+  (A : Ty) →
+  (a : Tm A) →
+  Ty
+Contraction A a =
+  Pi A λ b → Id A a b
+
 is-contr :
   (A : Ty) →
   Ty
 is-contr A =
-  {!!}  -- Needs sigma types...
+  -- Needs sigma types...
+  {!Sigma A λ a →
+  Contraction A a!}
 
 is-prop-→-has-contr-Id-types-1 :
   (A : Ty) →
