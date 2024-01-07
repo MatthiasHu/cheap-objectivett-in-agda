@@ -56,3 +56,8 @@ subst A B =
     b
     p
     (λ a' → id (B a'))
+
+
+-- Example of a statement that can not be expressed as concisely
+-- without judgemental equality:
+-- "ap(const x)(p) = refl x"
