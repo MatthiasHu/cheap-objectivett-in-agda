@@ -122,10 +122,20 @@ Contraction-→-is-prop :
   (A : Ty) →
   Tm (
     Π a ∈ A ,
-    Fun (Contraction A a) (is-prop A)
+    Π _ ∈ Contraction A a ,
+    is-prop A
   )
-Contraction-→-is-prop =
-  {!!}
+Contraction-→-is-prop A =
+  a ↦
+  contraction ↦
+  x ↦
+  y ↦
+  (compose-paths A
+    < x >
+    < a >
+    < {!invert-path A!} >
+    < y >
+    < contraction < y > >)
 
 Constraction-→-Id-type-Contraction :
   (A : Ty) →
