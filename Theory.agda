@@ -102,6 +102,7 @@ compose-paths :
   (A : Ty) →
   Tm (
     -- This order of argument makes the definition easy.
+    -- (Not the function convenient to use.)
     Π a ∈ A ,
     Π b ∈ A ,
     Π _ ∈ (a ＝ b) ,
@@ -132,6 +133,24 @@ invert-path A =
   p ↦
   idrec A (λ x y p → y ＝ x) a b p λ x → trivial-path A < x >
 
+compose-invert-path :
+  (A : Ty) →
+  Tm (
+    Π a ∈ A ,
+    Π b ∈ A ,
+    Π p ∈ (a ＝ b) ,
+    ((compose-paths A < a > < b > < p > < a > < invert-path A < a > < b > < p > >) ＝ (trivial-path A < a >))
+  )
+compose-invert-path A =
+  a ↦
+  b ↦
+  p ↦
+  idrec A
+    (λ a b p → (compose-paths A < a > < b > < p > < a > < invert-path A < a > < b > < p > >) ＝ (trivial-path A < a >))
+    a b p
+    λ x → {!!}
+    -- We will need idconv here.
+
 Contraction-→-is-prop :
   (A : Ty) →
   Tm (
@@ -159,7 +178,7 @@ Constraction-→-Id-type-Contraction :
     Π b ∈ A ,
     Π b' ∈ A ,
     Contraction (b ＝ b')
-      ((Contraction-→-is-prop A) < {!!} > < {!!} > < b > < b' >)
+      (Contraction-→-is-prop A < a > < contraction > < b > < b' >)
   )
 Constraction-→-Id-type-Contraction =
   {!!}
@@ -191,8 +210,8 @@ is-prop-→-has-contr-Id-types-2 =
   {!!}
 
 -- (Cheating about is-contr.)
-is-contr-→-is-prop :
-  (A : Ty) →
-  {!!}
-is-contr-→-is-prop =
-  {!!}
+-- is-contr-→-is-prop :
+--   (A : Ty) →
+--   {!!}
+-- is-contr-→-is-prop =
+--   {!!}
