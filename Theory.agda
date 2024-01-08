@@ -83,7 +83,14 @@ idrec A P =
   p ↦
   let
   d' : ((x : Tm A) → Tm (P x x (Postulates.refl A x)))
-  d' = λ x → {!d < x >!}
+  d' = λ x →
+    subst
+      (x ＝ x)
+      (P x x)
+      < refl A < x > >
+      < Postulates.refl A x >
+      < Postulates.betaconv A (λ x → x ＝ x) x (λ a → Postulates.refl A a) >
+      < d < x > >
   in
   Postulates.idrec A P a b p d'
 
