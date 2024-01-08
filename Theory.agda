@@ -118,6 +118,20 @@ compose-paths A =
     a b p
     λ a → c ↦ id (a ＝ c)
 
+invert-path :
+  (A : Ty) →
+  Tm (
+    Π a ∈ A ,
+    Π b ∈ A ,
+    Π _ ∈ (a ＝ b) ,
+    (b ＝ a)
+  )
+invert-path A =
+  a ↦
+  b ↦
+  p ↦
+  idrec A (λ x y p → y ＝ x) a b p λ x → trivial-path A < x >
+
 Contraction-→-is-prop :
   (A : Ty) →
   Tm (
@@ -133,7 +147,7 @@ Contraction-→-is-prop A =
   (compose-paths A
     < x >
     < a >
-    < {!invert-path A!} >
+    < invert-path A < a > < x > < contraction < x > > >
     < y >
     < contraction < y > >)
 
@@ -145,7 +159,7 @@ Constraction-→-Id-type-Contraction :
     Π b ∈ A ,
     Π b' ∈ A ,
     Contraction (b ＝ b')
-      ((Contraction-→-is-prop A) < {!!} > < {!!} > < {!!} > < {!!} >)
+      ((Contraction-→-is-prop A) < {!!} > < {!!} > < b > < b' >)
   )
 Constraction-→-Id-type-Contraction =
   {!!}
