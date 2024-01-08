@@ -57,6 +57,36 @@ subst A B =
     p
     (λ a' → id (B a'))
 
+refl :
+  (A : Ty) →
+  Tm (
+    Π a ∈ A ,
+    (a ＝ a)
+  )
+refl A =
+  a ↦ Postulates.refl A a
+
+idrec :
+  (A : Ty) →
+  (P : (x : Tm A) → (y : Tm A) → Tm (x ＝ y) → Ty) →
+  Tm (
+    Π _ ∈ (Π x ∈ A , P x x (refl A < x >)) ,
+    Π a ∈ A ,
+    Π b ∈ A ,
+    Π p ∈ a ＝ b ,
+    P a b p
+  )
+idrec A P =
+  d ↦
+  a ↦
+  b ↦
+  p ↦
+  let
+  d' : ((x : Tm A) → Tm (P x x (Postulates.refl A x)))
+  d' = λ x → {!d < x >!}
+  in
+  Postulates.idrec A P a b p d'
+
 
 -- Example of a statement that can not be expressed as concisely
 -- without judgemental beta reduction:
@@ -87,17 +117,6 @@ is-contr A =
   -- Needs sigma types...
   {!Sigma A λ a →
   Contraction A a!}
-
--- TODO: replace by refl
-trivial-path :
-  (A : Ty) →
-  Tm (
-    Π a ∈ A ,
-    (a ＝ a)
-  )
-trivial-path A =
-  a ↦
-  Postulates.refl A a
 
 compose-paths :
   (A : Ty) →
@@ -132,7 +151,7 @@ invert-path A =
   a ↦
   b ↦
   p ↦
-  Postulates.idrec A (λ x y p → y ＝ x) a b p λ x → trivial-path A < x >
+  Postulates.idrec A (λ x y p → y ＝ x) a b p λ x → refl A < x >
 
 compose-invert-path :
   (A : Ty) →
@@ -140,14 +159,14 @@ compose-invert-path :
     Π a ∈ A ,
     Π b ∈ A ,
     Π p ∈ (a ＝ b) ,
-    ((compose-paths A < a > < b > < p > < a > < invert-path A < a > < b > < p > >) ＝ (trivial-path A < a >))
+    ((compose-paths A < a > < b > < p > < a > < invert-path A < a > < b > < p > >) ＝ (refl A < a >))
   )
 compose-invert-path A =
   a ↦
   b ↦
   p ↦
   Postulates.idrec A
-    (λ a b p → (compose-paths A < a > < b > < p > < a > < invert-path A < a > < b > < p > >) ＝ (trivial-path A < a >))
+    (λ a b p → (compose-paths A < a > < b > < p > < a > < invert-path A < a > < b > < p > >) ＝ (refl A < a >))
     a b p
     λ x → {!!}
     -- We will need idconv here.
