@@ -82,7 +82,7 @@ idrec A P =
   b ↦
   p ↦
   let
-  d' : ((x : Tm A) → Tm (P x x (Postulates.refl A x)))
+  d' : (x : Tm A) → Tm (P x x (Postulates.refl A x))
   d' = λ x →
     subst
       (x ＝ x)
@@ -93,6 +93,27 @@ idrec A P =
       < d < x > >
   in
   Postulates.idrec A P a b p d'
+
+idconv :
+  (A : Ty) →
+  (P : (x : Tm A) → (y : Tm A) → Tm (x ＝ y) → Ty) →
+  Tm (
+    Π d ∈ (Π x ∈ A , P x x (refl A < x >)) ,
+    Π a ∈ A ,
+    ((idrec A P < d > < a > < a > < refl A < a > >) ＝ (d < a >))
+  )
+idconv A P =
+  d ↦
+  let
+  d' : (x : Tm A) → Tm (P x x (Postulates.refl A x))
+  d' = λ a → {!d < a >!}
+  in
+  a ↦
+  let
+  eq' : Tm (Postulates.idrec A P a a (Postulates.refl A a) d' ＝ d' a)
+  eq' = Postulates.idconv A P a d'
+  in
+  {!eq'!}
 
 
 -- Example of a statement that can not be expressed as concisely
