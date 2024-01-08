@@ -135,7 +135,7 @@ Constraction-→-Id-type-Contraction :
     Π b ∈ A ,
     Π b' ∈ A ,
     Contraction (b ＝ b')
-      (app _ _ (app _ _ (app _ _ (app _ _ (Contraction-→-is-prop A) {!!}) {!!}) {!!}) {!!})
+      ((Contraction-→-is-prop A) < {!!} > < {!!} > < {!!} > < {!!} >)
   )
 Constraction-→-Id-type-Contraction =
   {!!}
@@ -161,7 +161,7 @@ is-prop-→-has-contr-Id-types-2 :
     Π p ∈ (a ＝ b) ,
     Id (a ＝ b)
       p
-      (app _ _ (app _ _ (app _ _ (is-prop-→-has-contr-Id-types-1 A) (is-prop-A)) a) b)
+      (is-prop-→-has-contr-Id-types-1 A < is-prop-A > < a > < b >)
   )
 is-prop-→-has-contr-Id-types-2 =
   {!!}
