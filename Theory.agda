@@ -2,7 +2,7 @@
 module Theory where
 
 open import Convenience
-open import Postulates
+import Postulates
 
 
 -- As long as we have no universe in the object language (typal tt),
@@ -30,8 +30,8 @@ subst' :
   (p : Tm (a ＝ b)) →
   Tm (B a) → Tm (B b)
 subst' A B a b p =
-  app (B a) (λ _ → B b)
-    (idrec A (λ x y _ → (Fun (B x) (B y)))
+  Postulates.app (B a) (λ _ → B b)
+    (Postulates.idrec A (λ x y _ → (Fun (B x) (B y)))
       a
       b
       p
@@ -51,7 +51,7 @@ subst A B =
   a ↦
   b ↦
   p ↦
-  idrec A (λ x y _ → (Fun (B x) (B y)))
+  Postulates.idrec A (λ x y _ → (Fun (B x) (B y)))
     a
     b
     p
@@ -88,6 +88,7 @@ is-contr A =
   {!Sigma A λ a →
   Contraction A a!}
 
+-- TODO: replace by refl
 trivial-path :
   (A : Ty) →
   Tm (
@@ -96,7 +97,7 @@ trivial-path :
   )
 trivial-path A =
   a ↦
-  refl A a
+  Postulates.refl A a
 
 compose-paths :
   (A : Ty) →
@@ -114,7 +115,7 @@ compose-paths A =
   a ↦
   b ↦
   p ↦
-  idrec A
+  Postulates.idrec A
     (λ a b p → Π c ∈ A , Π _ ∈ (b ＝ c) , (a ＝ c))
     a b p
     λ a → c ↦ id (a ＝ c)
@@ -131,7 +132,7 @@ invert-path A =
   a ↦
   b ↦
   p ↦
-  idrec A (λ x y p → y ＝ x) a b p λ x → trivial-path A < x >
+  Postulates.idrec A (λ x y p → y ＝ x) a b p λ x → trivial-path A < x >
 
 compose-invert-path :
   (A : Ty) →
@@ -145,7 +146,7 @@ compose-invert-path A =
   a ↦
   b ↦
   p ↦
-  idrec A
+  Postulates.idrec A
     (λ a b p → (compose-paths A < a > < b > < p > < a > < invert-path A < a > < b > < p > >) ＝ (trivial-path A < a >))
     a b p
     λ x → {!!}
@@ -202,9 +203,7 @@ is-prop-→-has-contr-Id-types-2 :
     Π a ∈ A ,
     Π b ∈ A ,
     Π p ∈ (a ＝ b) ,
-    Id (a ＝ b)
-      p
-      (is-prop-→-has-contr-Id-types-1 A < is-prop-A > < a > < b >)
+    (p ＝ (is-prop-→-has-contr-Id-types-1 A < is-prop-A > < a > < b >))
   )
 is-prop-→-has-contr-Id-types-2 =
   {!!}
