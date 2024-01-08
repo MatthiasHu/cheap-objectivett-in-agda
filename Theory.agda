@@ -1,6 +1,7 @@
 
 module Theory where
 
+open import Convenience
 open import Postulates
 
 
@@ -8,16 +9,15 @@ open import Postulates
 -- polymorphism can only be expressed in the meta language (Agda).
 
 Fun : Ty → Ty → Ty
-Fun A B = Pi A (λ _ → B)
+Fun A B =
+  Π _ ∈ A ,
+  B
 
 id :
   (A : Ty) →
   Tm (Fun A A)
 id A =
-  lam
-    A
-    (λ _ → A)
-    (λ a → a)
+  a ↦ a
 
 -- This version of subst uses the function types of the meta language
 -- instead of the function types of the object language.
@@ -41,16 +41,16 @@ subst :
   (A : Ty) →
   (B : Tm A → Ty) →
   Tm (
-    Pi A λ a →
-    Pi A λ b →
-    Pi (Id A a b) λ p →
-    Pi (B a) λ _ →
+    Π a ∈ A ,
+    Π b ∈ A ,
+    Π _ ∈ Id A a b ,
+    Π _ ∈ (B a) ,
     B b
   )
 subst A B =
-  lam A _ λ a →
-  lam A _ λ b →
-  lam (Id A a b) _ λ p →
+  a ↦
+  b ↦
+  p ↦
   idrec A (λ x y _ → (Fun (B x) (B y)))
     a
     b
@@ -67,9 +67,9 @@ is-prop :
   (A : Ty) →
   Ty
 is-prop A =
-  Pi A λ a →
-  Pi A λ b →
-  Id A a b
+  Π a ∈ A ,
+  Π b ∈ A ,
+  (a ＝ b)
 
 -- This seems half cheating.
 Contraction :
@@ -77,7 +77,8 @@ Contraction :
   (a : Tm A) →
   Ty
 Contraction A a =
-  Pi A λ b → Id A a b
+  Π b ∈ A ,
+  (a ＝ b)
 
 is-contr :
   (A : Ty) →
@@ -90,7 +91,7 @@ is-contr A =
 trivial-path :
   (A : Ty) →
   Tm (
-    Pi A λ a →
+    Π a ∈ A ,
     Id A a a
   )
 trivial-path A =
@@ -101,24 +102,26 @@ compose-paths :
   (A : Ty) →
   Tm (
     -- This order of argument makes the definition easy.
-    Pi A λ a →
-    Pi A λ b →
-    Pi (Id A a b) λ _ →
-    Pi A λ c →
-    Pi (Id A b c) λ _ →
+    Π a ∈ A ,
+    Π b ∈ A ,
+    Π _ ∈ (Id A a b) ,
+    Π c ∈ A ,
+    Π _ ∈ (Id A b c) ,
     Id A a c
   )
 compose-paths A =
   lam _ _ λ a →
   lam _ _ λ b →
   lam _ _ λ p →
-  idrec A (λ a b p → Pi A λ c → Pi (Id A b c) λ _ → Id A a c) a b p
+  idrec A
+    (λ a b p → Π c ∈ A , Π _ ∈ (Id A b c) , Id A a c)
+    a b p
     λ a → lam _ _ λ c → id (Id A a c)
 
 Contraction-→-is-prop :
   (A : Ty) →
   Tm (
-    Pi A λ a →
+    Π a ∈ A ,
     Fun (Contraction A a) (is-prop A)
   )
 Contraction-→-is-prop =
@@ -127,10 +130,10 @@ Contraction-→-is-prop =
 Constraction-→-Id-type-Contraction :
   (A : Ty) →
   Tm (
-    Pi A λ a →
-    Pi (Contraction A a) λ contraction →
-    Pi A λ b →
-    Pi A λ b' →
+    Π a ∈ A ,
+    Π contraction ∈ (Contraction A a) ,
+    Π b ∈ A ,
+    Π b' ∈ A ,
     Contraction (Id A b b')
       (app _ _ (app _ _ (app _ _ (app _ _ (Contraction-→-is-prop A) {!!}) {!!}) {!!}) {!!})
   )
@@ -140,9 +143,9 @@ Constraction-→-Id-type-Contraction =
 is-prop-→-has-contr-Id-types-1 :
   (A : Ty) →
   Tm (
-    Pi (is-prop A) λ _ →
-    Pi A λ a →
-    Pi A λ b →
+    Π _ ∈ (is-prop A) ,
+    Π a ∈ A ,
+    Π b ∈ A ,
     Id A a b
   )
 is-prop-→-has-contr-Id-types-1 A =
@@ -152,10 +155,10 @@ is-prop-→-has-contr-Id-types-1 A =
 is-prop-→-has-contr-Id-types-2 :
   (A : Ty) →
   Tm (
-    Pi (is-prop A) λ is-prop-A →
-    Pi A λ a →
-    Pi A λ b →
-    Pi (Id A a b) λ p →
+    Π is-prop-A ∈ (is-prop A) ,
+    Π a ∈ A ,
+    Π b ∈ A ,
+    Π p ∈ (Id A a b) ,
     Id (Id A a b)
       p
       (app _ _ (app _ _ (app _ _ (is-prop-→-has-contr-Id-types-1 A) (is-prop-A)) a) b)
