@@ -95,7 +95,7 @@ trivial-path :
     Id A a a
   )
 trivial-path A =
-  lam _ _ λ a →
+  a ↦
   refl A a
 
 compose-paths :
@@ -110,13 +110,13 @@ compose-paths :
     Id A a c
   )
 compose-paths A =
-  lam _ _ λ a →
-  lam _ _ λ b →
-  lam _ _ λ p →
+  a ↦
+  b ↦
+  p ↦
   idrec A
     (λ a b p → Π c ∈ A , Π _ ∈ (Id A b c) , Id A a c)
     a b p
-    λ a → lam _ _ λ c → id (Id A a c)
+    λ a → c ↦ id (Id A a c)
 
 Contraction-→-is-prop :
   (A : Ty) →
