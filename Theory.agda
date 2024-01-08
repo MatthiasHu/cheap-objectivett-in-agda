@@ -27,7 +27,7 @@ subst' :
   (B : Tm A → Ty) →
   (a : Tm A) →
   (b : Tm A) →
-  (p : Tm (Id A a b)) →
+  (p : Tm (a ＝ b)) →
   Tm (B a) → Tm (B b)
 subst' A B a b p =
   app (B a) (λ _ → B b)
@@ -43,7 +43,7 @@ subst :
   Tm (
     Π a ∈ A ,
     Π b ∈ A ,
-    Π _ ∈ Id A a b ,
+    Π _ ∈ (a ＝ b) ,
     Π _ ∈ (B a) ,
     B b
   )
@@ -92,7 +92,7 @@ trivial-path :
   (A : Ty) →
   Tm (
     Π a ∈ A ,
-    Id A a a
+    (a ＝ a)
   )
 trivial-path A =
   a ↦
@@ -104,19 +104,19 @@ compose-paths :
     -- This order of argument makes the definition easy.
     Π a ∈ A ,
     Π b ∈ A ,
-    Π _ ∈ (Id A a b) ,
+    Π _ ∈ (a ＝ b) ,
     Π c ∈ A ,
-    Π _ ∈ (Id A b c) ,
-    Id A a c
+    Π _ ∈ (b ＝ c) ,
+    (a ＝ c)
   )
 compose-paths A =
   a ↦
   b ↦
   p ↦
   idrec A
-    (λ a b p → Π c ∈ A , Π _ ∈ (Id A b c) , Id A a c)
+    (λ a b p → Π c ∈ A , Π _ ∈ (b ＝ c) , (a ＝ c))
     a b p
-    λ a → c ↦ id (Id A a c)
+    λ a → c ↦ id (a ＝ c)
 
 Contraction-→-is-prop :
   (A : Ty) →
@@ -134,7 +134,7 @@ Constraction-→-Id-type-Contraction :
     Π contraction ∈ (Contraction A a) ,
     Π b ∈ A ,
     Π b' ∈ A ,
-    Contraction (Id A b b')
+    Contraction (b ＝ b')
       (app _ _ (app _ _ (app _ _ (app _ _ (Contraction-→-is-prop A) {!!}) {!!}) {!!}) {!!})
   )
 Constraction-→-Id-type-Contraction =
@@ -146,7 +146,7 @@ is-prop-→-has-contr-Id-types-1 :
     Π _ ∈ (is-prop A) ,
     Π a ∈ A ,
     Π b ∈ A ,
-    Id A a b
+    (a ＝ b)
   )
 is-prop-→-has-contr-Id-types-1 A =
   id (is-prop A)
@@ -158,8 +158,8 @@ is-prop-→-has-contr-Id-types-2 :
     Π is-prop-A ∈ (is-prop A) ,
     Π a ∈ A ,
     Π b ∈ A ,
-    Π p ∈ (Id A a b) ,
-    Id (Id A a b)
+    Π p ∈ (a ＝ b) ,
+    Id (a ＝ b)
       p
       (app _ _ (app _ _ (app _ _ (is-prop-→-has-contr-Id-types-1 A) (is-prop-A)) a) b)
   )
