@@ -16,6 +16,13 @@ postulate
   Ty : Set
   Tm : Ty → Set
 
+-- We stay as close as possible to the roles in the paper here.
+
+-- In particular, we translate syntactic term constructs that take term arguments
+-- to Agda functions, not to terms of Pi type.
+-- Note: This leaves open the possibility for "exotic syntax" (proper meta level functions
+-- embedded in supposedly object language expressions) perhaps more than necessary.
+
 -- Rules for identity types
 postulate
   Id :
@@ -71,3 +78,36 @@ postulate
     (a : Tm A) →
     (t : (x : Tm A) → Tm (B x)) →
     Tm (Id (B a) (app A B (lam A B t) a) (t a))
+
+-- Additional types that are not in the paper.
+
+-- Σ-types
+postulate
+  Sigma :
+    (A : Ty) →
+    (B : Tm A → Ty) →
+    Ty
+
+  pair :
+    (A : Ty) →
+    (B : Tm A → Ty) →
+    (a : Tm A) →
+    (b : Tm (B a)) →
+    Tm (Sigma A B)
+
+  sigmarec :
+    (A : Ty) →
+    (B : Tm A → Ty) →
+    (P : Tm (Sigma A B) → Ty) →
+    (d : (a : Tm A) → (b : Tm (B a)) → Tm (P (pair A B a b))) →
+    (ab : Tm (Sigma A B)) →
+    Tm (P ab)
+
+  sigmaconv :
+    (A : Ty) →
+    (B : Tm A → Ty) →
+    (P : Tm (Sigma A B) → Ty) →
+    (d : (a : Tm A) → (b : Tm (B a)) → Tm (P (pair A B a b))) →
+    (a : Tm A) →
+    (b : Tm (B a)) →
+    Tm (Id (P (pair A B a b)) (sigmarec A B P d (pair A B a b)) (d a b))

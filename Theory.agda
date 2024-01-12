@@ -94,6 +94,8 @@ idrec A P =
   in
   Postulates.idrec A P a b p d'
 
+-- TODO: Do we want a version of idrec with the first endpoint fixed and only the second free?
+
 idconv :
   (A : Ty) →
   (P : (x : Tm A) → (y : Tm A) → Tm (x ＝ y) → Ty) →
