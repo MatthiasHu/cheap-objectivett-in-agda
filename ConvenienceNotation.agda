@@ -1,7 +1,7 @@
 
 open import Rules
 
-module Convenience
+module ConvenienceNotation
   (rules : IdPiSigmaRules)
   where
 

@@ -7,7 +7,7 @@ module Theory
 
 private module R = IdPiSigmaRules rules
 
-open import Convenience rules
+open import ConvenienceNotation rules
 
 
 -- As long as we have no universe in the object language (typal tt),

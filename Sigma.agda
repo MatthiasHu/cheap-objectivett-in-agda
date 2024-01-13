@@ -7,7 +7,7 @@ module Sigma
 
 open IdPiSigmaRules rules
 
-open import Convenience rules hiding (Ty; Tm)
+open import ConvenienceNotation rules hiding (Ty; Tm)
 
 
 -- Ad hoc stuff about Sigma.
