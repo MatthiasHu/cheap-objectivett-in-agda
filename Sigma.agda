@@ -1,8 +1,13 @@
 
-module Sigma where
+open import Rules
 
-open import Convenience
-open import Postulates
+module Sigma
+  (rules : IdPiSigmaRules)
+  where
+
+open IdPiSigmaRules rules
+
+open import Convenience rules hiding (Ty; Tm)
 
 
 -- Ad hoc stuff about Sigma.

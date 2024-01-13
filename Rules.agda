@@ -10,7 +10,7 @@
 -- of some model of typal type theory.
 
 
-module Postulates where
+module Rules where
 
 record MetaUniverse : Set₁ where
   field
@@ -133,3 +133,8 @@ record IdPiSigmaRules : Set₁ where
     Id-rules : IdRules meta-universe
     Pi-rules : PiRules meta-universe Id-rules
     Sigma-rules : SigmaRules meta-universe Id-rules
+
+  open MetaUniverse meta-universe public
+  open IdRules Id-rules public
+  open PiRules Pi-rules public
+  open SigmaRules Sigma-rules public

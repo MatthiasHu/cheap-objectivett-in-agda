@@ -1,8 +1,13 @@
 
-module Theory where
+open import Rules
 
-open import Convenience
-import Postulates
+module Theory
+  (rules : IdPiSigmaRules)
+  where
+
+private module R = IdPiSigmaRules rules
+
+open import Convenience rules
 
 
 -- As long as we have no universe in the object language (typal tt),
@@ -30,8 +35,8 @@ subst' :
   (p : Tm (a ＝ b)) →
   Tm (B a) → Tm (B b)
 subst' A B a b p =
-  Postulates.app (B a) (λ _ → B b)
-    (Postulates.idrec A (λ x y _ → (Fun (B x) (B y)))
+  R.app (B a) (λ _ → B b)
+    (R.idrec A (λ x y _ → (Fun (B x) (B y)))
       a
       b
       p
@@ -51,7 +56,7 @@ subst A B =
   a ↦
   b ↦
   p ↦
-  Postulates.idrec A (λ x y _ → (Fun (B x) (B y)))
+  R.idrec A (λ x y _ → (Fun (B x) (B y)))
     a
     b
     p
@@ -64,7 +69,7 @@ refl :
     (a ＝ a)
   )
 refl A =
-  a ↦ Postulates.refl A a
+  a ↦ R.refl A a
 
 idrec :
   (A : Ty) →
@@ -82,17 +87,17 @@ idrec A P =
   b ↦
   p ↦
   let
-  d' : (x : Tm A) → Tm (P x x (Postulates.refl A x))
+  d' : (x : Tm A) → Tm (P x x (R.refl A x))
   d' = λ x →
     subst
       (x ＝ x)
       (P x x)
       < refl A < x > >
-      < Postulates.refl A x >
-      < Postulates.betaconv A (λ x → x ＝ x) x (λ a → Postulates.refl A a) >
+      < R.refl A x >
+      < R.betaconv A (λ x → x ＝ x) x (λ a → R.refl A a) >
       < d < x > >
   in
-  Postulates.idrec A P a b p d'
+  R.idrec A P a b p d'
 
 -- TODO: Do we want a version of idrec with the first endpoint fixed and only the second free?
 
@@ -107,20 +112,20 @@ idconv :
 idconv A P =
   d ↦
   let
-  d' : (x : Tm A) → Tm (P x x (Postulates.refl A x))
+  d' : (x : Tm A) → Tm (P x x (R.refl A x))
   d' = λ x →
     subst
       (x ＝ x)
       (P x x)
       < refl A < x > >
-      < Postulates.refl A x >
-      < Postulates.betaconv A (λ x → x ＝ x) x (λ a → Postulates.refl A a) >
+      < R.refl A x >
+      < R.betaconv A (λ x → x ＝ x) x (λ a → R.refl A a) >
       < d < x > >
   in
   a ↦
   let
-  eq' : Tm (Postulates.idrec A P a a (Postulates.refl A a) d' ＝ d' a)
-  eq' = Postulates.idconv A P a d'
+  eq' : Tm (R.idrec A P a a (R.refl A a) d' ＝ d' a)
+  eq' = R.idconv A P a d'
   in
   {!eq'!}
 
@@ -171,7 +176,7 @@ compose-paths A =
   a ↦
   b ↦
   p ↦
-  Postulates.idrec A
+  R.idrec A
     (λ a b p → Π c ∈ A , Π _ ∈ (b ＝ c) , (a ＝ c))
     a b p
     λ a → c ↦ id (a ＝ c)
@@ -188,7 +193,7 @@ invert-path A =
   a ↦
   b ↦
   p ↦
-  Postulates.idrec A (λ x y p → y ＝ x) a b p λ x → refl A < x >
+  R.idrec A (λ x y p → y ＝ x) a b p λ x → refl A < x >
 
 compose-invert-path :
   (A : Ty) →
@@ -202,7 +207,7 @@ compose-invert-path A =
   a ↦
   b ↦
   p ↦
-  Postulates.idrec A
+  R.idrec A
     (λ a b p → (compose-paths A < a > < b > < p > < a > < invert-path A < a > < b > < p > >) ＝ (refl A < a >))
     a b p
     λ x → {!!}
