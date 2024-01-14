@@ -191,6 +191,15 @@ invert-path :
 invert-path A =
   idrec A (λ x y p → y ＝ x) < refl A >
 
+invert-path-refl :
+  (A : Ty) →
+  Tm (
+    Π a ∈ A ,
+    ((invert-path A < a > < a > < refl A < a > >) ＝ (refl A < a >))
+  )
+invert-path-refl A =
+  idconv A (λ x y p → y ＝ x) < refl A >
+
 compose-invert-path :
   (A : Ty) →
   Tm (
