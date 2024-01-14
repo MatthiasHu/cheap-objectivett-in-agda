@@ -177,8 +177,23 @@ compose-paths A =
     (λ a b _ → Π c ∈ A , Π _ ∈ (b ＝ c) , (a ＝ c))
     < a ↦ c ↦ id (a ＝ c) >
 
+compose-paths-refl-* :
+  (A : Ty) →
+  Tm (
+    Π a ∈ A ,
+    Π c ∈ A ,
+    Π p ∈ (a ＝ c) ,
+    ((compose-paths A < a > < a > < refl A < a > > < c > < p >) ＝ p)
+  )
+compose-paths-refl-* A =
+  a ↦
+  {!idconv
+     A
+     (λ a b _ → Π c ∈ A , Π _ ∈ (b ＝ c) , (a ＝ c))
+     < a ↦ c ↦ id (a ＝ c) >
+     < a >!}
+
 -- TODO:
--- compose-paths-refl-*
 -- compose-paths-*-refl
 
 invert-path :
