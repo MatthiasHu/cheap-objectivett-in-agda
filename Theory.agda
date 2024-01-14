@@ -22,23 +22,24 @@ id :
 id A =
   a ↦ a
 
--- This version of subst uses the function types of the meta language
--- instead of the function types of the object language.
--- It behaves more like a syntactic construct than a term of function type.
-subst' :
-  (A : Ty) →
-  (B : Tm A → Ty) →
-  (a : Tm A) →
-  (b : Tm A) →
-  (p : Tm (a ＝ b)) →
-  Tm (B a) → Tm (B b)
-subst' A B a b p =
-  R.app (B a) (λ _ → B b)
-    (R.idrec A (λ x y _ → Π _ ∈ B x , B y)
-      a
-      b
-      p
-      (λ a' → id (B a')))
+module _ where private
+  -- This version of subst uses the function types of the meta language
+  -- instead of the function types of the object language.
+  -- It behaves more like a syntactic construct than a term of function type.
+  subst' :
+    (A : Ty) →
+    (B : Tm A → Ty) →
+    (a : Tm A) →
+    (b : Tm A) →
+    (p : Tm (a ＝ b)) →
+    Tm (B a) → Tm (B b)
+  subst' A B a b p =
+    R.app (B a) (λ _ → B b)
+      (R.idrec A (λ x y _ → Π _ ∈ B x , B y)
+        a
+        b
+        p
+        (λ a' → id (B a')))
 
 subst :
   (A : Ty) →
