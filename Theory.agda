@@ -172,13 +172,14 @@ compose-paths :
     (a ＝ c)
   )
 compose-paths A =
-  a ↦
-  b ↦
-  p ↦
-  R.idrec A
-    (λ a b p → Π c ∈ A , Π _ ∈ (b ＝ c) , (a ＝ c))
-    a b p
-    λ a → c ↦ id (a ＝ c)
+  idrec
+    A
+    (λ a b _ → Π c ∈ A , Π _ ∈ (b ＝ c) , (a ＝ c))
+    < a ↦ c ↦ id (a ＝ c) >
+
+-- TODO:
+-- compose-paths-refl-*
+-- compose-paths-*-refl
 
 invert-path :
   (A : Ty) →
