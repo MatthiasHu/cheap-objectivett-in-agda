@@ -29,6 +29,10 @@ syntax lam' (λ a → b) = a ↦ b
 _<_> : {A : Ty} → {B : Tm A → Ty} → Tm (R.Pi A B) → (a : Tm A) → Tm (B a)
 f < x > = R.app _ _ f x
 
+module _ where private
+  -- Idea for hidden argument notation.
+  _<> : {A : Ty} → {B : Tm A → Ty} → Tm (R.Pi A B) → {a : Tm A} → Tm (B a)
+  (f <>) {a = a} = f < a >
 
 -- To bring other syntactic constructs into a more convenient form
 -- we already need subst...
