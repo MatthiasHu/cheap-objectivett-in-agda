@@ -189,7 +189,7 @@ invert-path :
     (b ＝ a)
   )
 invert-path A =
-  idrec A (λ x y p → y ＝ x) < (x ↦ (refl A < x >)) >
+  idrec A (λ x y p → y ＝ x) < refl A >
 
 compose-invert-path :
   (A : Ty) →
