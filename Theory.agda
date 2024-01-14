@@ -13,14 +13,12 @@ open import ConvenienceNotation rules
 -- As long as we have no universe in the object language (typal tt),
 -- polymorphism can only be expressed in the meta language (Agda).
 
-Fun : Ty → Ty → Ty
-Fun A B =
-  Π _ ∈ A ,
-  B
-
 id :
   (A : Ty) →
-  Tm (Fun A A)
+  Tm (
+    Π _ ∈ A ,
+    A
+  )
 id A =
   a ↦ a
 
@@ -36,7 +34,7 @@ subst' :
   Tm (B a) → Tm (B b)
 subst' A B a b p =
   R.app (B a) (λ _ → B b)
-    (R.idrec A (λ x y _ → (Fun (B x) (B y)))
+    (R.idrec A (λ x y _ → Π _ ∈ B x , B y)
       a
       b
       p
@@ -56,7 +54,7 @@ subst A B =
   a ↦
   b ↦
   p ↦
-  R.idrec A (λ x y _ → (Fun (B x) (B y)))
+  R.idrec A (λ x y _ → (Π _ ∈ B x , B y))
     a
     b
     p
