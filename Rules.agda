@@ -1,4 +1,5 @@
--- Trying to formalize some stuff in typal (= objective) type theory,
+
+-- We embed objective type theory into Agda
 -- taking a "two-level type theory" or "logical framework" approach.
 
 -- We postulate a meta type of types and a meta type family of terms.
@@ -7,7 +8,7 @@
 
 -- We can imagine that our meta language (Agda) is the internal language
 -- of the presheaf topos over the category of contexts and substitutions
--- of some model of typal type theory.
+-- of some model of objective type theory.
 
 
 module Rules where
