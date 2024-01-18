@@ -1,7 +1,7 @@
 
 open import Rules
 
-module Sigma
+module SigmaTest
   (rules : IdPiSigmaRules)
   where
 
@@ -16,7 +16,6 @@ module _
   (A : Ty)
   (B : Tm A → Ty)
   where
-
 
   fst :
     Tm (
