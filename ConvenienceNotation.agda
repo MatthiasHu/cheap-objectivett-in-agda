@@ -11,8 +11,8 @@ private module R = IdPiSigmaRules rules
 open R public using (Ty; Tm)
 
 
--- Shorthands for the syntactic constructions,
--- with many type arguments left implicit.
+-- Shorthands for some of the syntactic constructions,
+-- with some type arguments made implicit.
 
 _＝_ : {A : Ty} → Tm A → Tm A → Ty
 _＝_ = R.Id _
@@ -33,6 +33,3 @@ module _ where private
   -- Idea for hidden argument notation.
   _<> : {A : Ty} → {B : Tm A → Ty} → Tm (R.Pi A B) → {a : Tm A} → Tm (B a)
   (f <>) {a = a} = f < a >
-
--- To bring other syntactic constructs into a more convenient form
--- we already need subst...

@@ -8,6 +8,7 @@ module Theory
 private module R = IdPiSigmaRules rules
 
 open import ConvenienceNotation rules
+open import RulesToTerms rules
 
 
 -- As long as we have no universe in the object language (typal tt),
@@ -60,15 +61,6 @@ subst A B =
     b
     p
     (λ a' → id (B a'))
-
-refl :
-  (A : Ty) →
-  Tm (
-    Π a ∈ A ,
-    (a ＝ a)
-  )
-refl A =
-  a ↦ R.refl A a
 
 idrec :
   (A : Ty) →
