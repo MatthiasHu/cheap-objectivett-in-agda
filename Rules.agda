@@ -63,7 +63,7 @@ module _
 
   -- Rules for Π-types
   record PiRules (id-rules : IdRules) : Set where
-    open IdRules id-rules
+    open IdRules id-rules using (Id)
 
     field
       Pi :
@@ -95,7 +95,7 @@ module _
 
   -- Σ-types
   record SigmaRules (id-rules : IdRules) : Set where
-    open IdRules id-rules
+    open IdRules id-rules using (Id)
 
     field
       Sigma :

@@ -11,7 +11,7 @@ open import ConvenienceNotation rules
 open import RulesToTerms rules
 
 
--- As long as we have no universe in the object language (typal tt),
+-- As long as we have no universe in the object language (objective type theory),
 -- polymorphism can only be expressed in the meta language (Agda).
 
 id :
