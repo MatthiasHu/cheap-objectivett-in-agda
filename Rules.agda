@@ -24,7 +24,7 @@ module _
 
   open MetaUniverse meta-universe
 
-  -- We stay as close as possible to the roles in the paper here.
+  -- We stay as close as possible to the rules in the paper here.
 
   -- In particular, we translate syntactic term constructs that take term arguments
   -- to Agda functions, not to terms of Pi type.
