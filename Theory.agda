@@ -53,15 +53,12 @@ subst :
     B b
   )
 subst A B =
-  a ↦
-  b ↦
-  p ↦
-  R.idrec A (λ x y _ → (Π _ ∈ B x , B y))
-    a
-    b
-    p
-    (λ a' → id (B a'))
+  idrec A (λ x y _ → (Π _ ∈ B x , B y))
+    < a' ↦ id (B a') >
 
+-- `idrec` and `idconv` should be done in RulesToTerms.agda, not here.
+
+{-
 idrec :
   (A : Ty) →
   (P : (x : Tm A) → (y : Tm A) → Tm (x ＝ y) → Ty) →
@@ -89,9 +86,11 @@ idrec A P =
       < d < x > >
   in
   R.idrec A P a b p d'
+-}
 
 -- TODO: Do we want a version of idrec with the first endpoint fixed and only the second free?
 
+{-
 idconv :
   (A : Ty) →
   (P : (x : Tm A) → (y : Tm A) → Tm (x ＝ y) → Ty) →
@@ -119,6 +118,7 @@ idconv A P =
   eq' = R.idconv A P a d'
   in
   {!eq'!}
+-}
 
 
 -- Example of a statement that can not be expressed as concisely

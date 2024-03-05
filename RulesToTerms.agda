@@ -1,3 +1,5 @@
+-- TODO: remove this after filling the holes below
+{-# OPTIONS --allow-unsolved-metas #-}
 
 -- Here we transform the syntactic term constructs given by the rules
 -- into more usable basic terms.
@@ -123,3 +125,6 @@ idconv :
     ((idrec.idrec A P < d > < a > < a > < refl.refl A < a > >) ＝ (d < a >))
   )
 idconv = {!!}
+
+open refl public using (refl)
+open idrec public using (idrec)
